@@ -5,7 +5,7 @@ import './CartItem.css';
 
 const CartItem = ({ onContinueShopping }) => {
     const cart = useSelector(state => state.cart.items);
-
+    const totalQuantity = useSelector(state => state.cart.totalQuantity);
     const dispatch = useDispatch();
   
     const calculateTotalAmount = (items) => {
