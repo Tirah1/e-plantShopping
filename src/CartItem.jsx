@@ -4,37 +4,59 @@ import { removeItem, updateQuantity } from './CartSlice';
 import './CartItem.css';
 
 const CartItem = ({ onContinueShopping }) => {
-  const cart = useSelector(state => state.cart.items);
-  const dispatch = useDispatch();
+    const cart = useSelector(state => state.cart.items);
+    const totalQuantity = useSelector(state => state.cart.totalQuantity); 
+    const dispatch = useDispatch();
 
-  // Calculate total amount for all products in the cart
-  const calculateTotalAmount = () => {
- 
+  const calculateTotalAmount = (items) => {
+    let total = 0; 
+  
+    for (const item of items) {
+      total += item.cost * item.quantity; 
+    }
+  
+    return total; 
   };
 
   const handleContinueShopping = (e) => {
+    onContinueShopping();
    
   };
+  
+  const handleCheckoutShopping = (e) => {
+    alert('Functionality to be added for future reference');
+  };
 
-
-
+ 
   const handleIncrement = (item) => {
+   dispatch(updateQuantity({ name: item.name, quantity: item.quantity + 1 }));
+   updateCartIcon();   
   };
 
   const handleDecrement = (item) => {
+    if (item.quantity > 1) {
+        dispatch(updateQuantity({ name: item.name, quantity: item.quantity - 1 }));
+        updateCartIcon();
+    } else {
+        dispatch(removeItem(item.name)); 
+      }
    
   };
 
   const handleRemove = (item) => {
+    dispatch(removeItem(item.name)); 
+    updateCartIcon();
   };
 
   // Calculate total cost based on quantity for an item
   const calculateTotalCost = (item) => {
+    return item.cost * item.quantity;
   };
 
   return (
     <div className="cart-container">
       <h2 style={{ color: 'black' }}>Total Cart Amount: ${calculateTotalAmount()}</h2>
+      <h3 style={{ color: 'black' }}>Total Quantity: {totalQuantity}</h3>
       <div>
         {cart.map(item => (
           <div className="cart-item" key={item.name}>
