@@ -16,8 +16,8 @@ const CartItem = ({ onContinueShopping }) => {
         }
         return total; 
 
-  };
-  const totalQuantity = cart.reduce((sum, item) => sum + item.quantity, 0);
+   };
+
 
   const handleContinueShopping = (e) => {
     onContinueShopping();
